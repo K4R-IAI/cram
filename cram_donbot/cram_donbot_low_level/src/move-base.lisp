@@ -6,7 +6,7 @@
 
 (defun init-action-client ()
   (setf *move-base-client* (actionlib:make-action-client
-                            "move_base_simple/goal"
+                            "move_base"
                             "move_base_msgs/MoveBaseAction"))
   (roslisp:ros-info (navigate-map)
                     "Waiting for move_base action server...")
