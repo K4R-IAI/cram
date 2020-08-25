@@ -62,9 +62,11 @@
                ;; trajectory_msgs-msg ; also for neck
                ;; ;; iai_control_msgs-msg ; neck message
                ;; iai_dlr_msgs-msg
+               move_base_msgs-msg
                )
   :components
   ((:module "src"
     :components
     ((:file "package")
-     (:file "grippers" :depends-on ("package"))))))
+     (:file "grippers" :depends-on ("package"))
+     (:file "move-base" :depends-on ("package"))))))
