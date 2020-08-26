@@ -50,9 +50,9 @@
                cram-joint-states
                cram-donbot-description
                ;; msgs for low-level communication
-               slipping_control_msgs-msg
-               slipping_control_msgs-srv
-               sun_tactile_common-msg
+               ;;slipping_control_msgs-msg
+               ;; slipping_control_msgs-srv
+               ;;sun_tactile_common-msg
                ;; geometry_msgs-msg ; for force-torque sensor wrench
                ;; std_srvs-srv ; for zeroing force-torque sensor
                ;; sensor_msgs-msg
