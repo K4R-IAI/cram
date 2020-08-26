@@ -4,7 +4,7 @@
 
 (defvar *move-base-client* nil)
 
-(defun init-action-client ()
+(defun init-move-base-action-client ()
   (setf *move-base-client* (actionlib:make-action-client
                             "move_base"
                             "move_base_msgs/MoveBaseAction"))
@@ -15,16 +15,16 @@
   (roslisp:ros-info (navigate-map) 
                     "move_base action client created."))
 
-(defun get-action-client ()
+(defun get-move-base-action-client ()
   (when (null *move-base-client*)
-    (init-action-client))
+    (init-move-base-action-client))
   *move-base-client*)
 
 (defun make-move-base-goal (pose-stamped-goal)
-  (actionlib:make-action-goal (get-action-client)
+  (actionlib:make-action-goal (get-move-base-action-client)
     target_pose pose-stamped-goal))
 
-(defun call-move-base-action (frame-id translation rotation)
+(defun call-move-base-action (&key frame-id translation rotation)
   (unless (eq roslisp::*node-status* :running)
     (roslisp:start-ros-node "move-base-lisp-client"))
 
@@ -36,7 +36,23 @@
                        frame-id
                        (roslisp::ros-time))))
         (actionlib:call-goal
-         (get-action-client)
+         (get-move-base-action-client)
+         (make-move-base-goal the-goal)))
+    (roslisp:ros-info (navigate-map) "Move_base action finished.")
+    (values result status)))
+
+(defun call-move-base-action-pose (&key pose)
+  (unless (eq roslisp::*node-status* :running)
+    (roslisp:start-ros-node "move-base-lisp-client"))
+
+  (multiple-value-bind (result status)
+      (let ((actionlib:*action-server-timeout* 10.0)
+            (the-goal (cl-tf:make-pose-stamped-msg 
+                       pose
+                       "map"
+                       (roslisp::ros-time))))
+        (actionlib:call-goal
+         (get-move-base-action-client)
          (make-move-base-goal the-goal)))
     (roslisp:ros-info (navigate-map) "Move_base action finished.")
     (values result status)))

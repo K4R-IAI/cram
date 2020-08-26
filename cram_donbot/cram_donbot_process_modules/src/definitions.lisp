@@ -29,6 +29,14 @@
 
 (in-package :donbot-pm)
 
+;;;;;;;;;;;;;;;;;;;; DESIG DEF ;;;;;;;;;;;;;;;;;;;;;;;
+;;;TODO find a better place for this
+(def-fact-group navigation-motions (desig:motion-grounding)
+
+  (<- (motion-grounding ?designator (move-base ?pose))
+    (property ?designator (:type :going))
+    (property ?designator (:pose ?pose))))
+
 ;;;;;;;;;;;;;;;;;;;; GRIPPERS ;;;;;;;;;;;;;;;;;;;;;;;;
 
 (cpm:def-process-module grippers-pm (motion-designator)
@@ -93,3 +101,16 @@
       (cram-common-designators:move-torso
        (giskard:call-torso-action
         :goal-joint-state argument-1)))))
+
+
+;;;;;;;;;;;;;;;;;;;; MOVE BASE ;;;;;;;;;;;;;;;;;;;;;;;;
+
+(cpm:def-process-module move-base-pm (motion-designator)
+  (destructuring-bind (command pose)
+      (desig:reference motion-designator)
+    (ecase command
+     ;;(cram-common-designators:move-base ;; TODO put this back in ?
+      (going
+       (donbot-ll::call-move-base-action-pose
+        :pose pose)))))
+

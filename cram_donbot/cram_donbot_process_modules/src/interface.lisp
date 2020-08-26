@@ -42,21 +42,32 @@
         (desig:desig-prop ?motion-designator (:type :moving-arm-joints))
         (desig:desig-prop ?motion-designator (:type :pulling))
         (desig:desig-prop ?motion-designator (:type :pushing))
-        (desig:desig-prop ?motion-designator (:type :going))
+        ;;(desig:desig-prop ?motion-designator (:type :going))
         (desig:desig-prop ?motion-designator (:type :moving-torso))
         (desig:desig-prop ?motion-designator (:type :looking))))
 
+  (<- (cpm:matching-process-module ?motion-designator move-base-pm)
+       (desig:desig-prop ?motion-designator (:type :going)))
+
   (<- (cpm:available-process-module ?pm)
-    (member ?pm (grippers-pm giskard-pm))
+    (member ?pm (grippers-pm giskard-pm move-base-pm))
     (not (cpm:projection-running ?_)))
 
+  (<- (cpm:available-process-module move-base-pm))
   (<- (cpm:available-process-module btr-belief:world-state-detecting-pm)))
 
 
 (defmacro with-real-robot (&body body)
   `(cram-process-modules:with-process-modules-running
        (donbot-pm:grippers-pm
-        rs:robosherlock-perception-pm giskard:giskard-pm
-        btr-belief:world-state-detecting-pm)
+        rs:robosherlock-perception-pm move-base-pm 
+        btr-belief:world-state-detecting-pm giskard::giskard-pm)
+     (cpl-impl::named-top-level (:name :top-level)
+       ,@body)))
+
+(defmacro with-unreal-robot (&body body)
+  `(cram-process-modules:with-process-modules-running
+       (donbot-pm:grippers-pm
+         move-base-pm giskard::giskard-pm)
      (cpl-impl::named-top-level (:name :top-level)
        ,@body)))
