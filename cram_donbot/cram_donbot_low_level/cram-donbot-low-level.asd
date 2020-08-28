@@ -68,5 +68,5 @@
   ((:module "src"
     :components
     ((:file "package")
-     (:file "grippers" :depends-on ("package"))
+     ;;(:file "grippers" :depends-on ("package"))
      (:file "move-base" :depends-on ("package"))))))
