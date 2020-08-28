@@ -30,7 +30,8 @@
 (in-package :cram-donbot-k4r-demo)
 
 (defun init()
-  (roslisp-utilities:startup-ros)
+  ;;(roslisp-utilities:startup-ros)
+  (roslisp:start-ros-node "cram")
   (donbot-ll::init-move-base-action-client)
   )
 
