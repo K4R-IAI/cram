@@ -77,6 +77,9 @@
                cram-giskard
                cram-donbot-process-modules
                cram-donbot-low-level
+
+               ;; service dependencies
+               k4r_common_srvs-srv
                )
 
   :components

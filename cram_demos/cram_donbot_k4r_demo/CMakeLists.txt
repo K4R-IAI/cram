@@ -8,7 +8,8 @@ find_package(catkin REQUIRED
 generate_messages( DEPENDENCIES actionlib_msgs)
 
 catkin_package(
-  CATKIN_DEPENDS roslisp actionlib_msgs message_runtime)
+  CATKIN_DEPENDS roslisp actionlib_msgs message_runtime
+  k4r_common_srvs)
 
 include_directories(
   ${catkin_INCLUDE_DIRS}

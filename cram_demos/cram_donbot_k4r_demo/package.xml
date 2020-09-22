@@ -52,6 +52,8 @@
   <depend>actionlib_msgs</depend>
   <depend>message_generation</depend>
   
+  <depend>k4r_common_srvs</depend>
+  
   <exec_depend>message_runtime</exec_depend>
   <!-- <depend>cram_robosherlock</depend> -->
   <!-- <depend>cram_giskard</depend> -->
