@@ -109,8 +109,7 @@
   (destructuring-bind (command pose)
       (desig:reference motion-designator)
     (ecase command
-     ;;(cram-common-designators:move-base ;; TODO put this back in ?
-      (going
+     (cram-common-designators:move-base ;; TODO put this back in ?
        (donbot-ll::call-move-base-action-pose
         :pose pose)))))
 

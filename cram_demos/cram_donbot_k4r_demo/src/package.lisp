@@ -30,7 +30,7 @@
 (in-package :cl-user)
 
 (defpackage cram-donbot-k4r-demo
-  (:nicknames #:demo)
+  (:nicknames #:k4r)
   (:use #:common-lisp #:cram-prolog
         #:desig #:exe)
   (:export

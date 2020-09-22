@@ -28,7 +28,7 @@
 ;;; POSSIBILITY OF SUCH DAMAGE.
 
 (defsystem cram-donbot-k4r-demo
-  :author "gaya"
+  :author "alina"
   :license "BSD"
 
   :depends-on (roslisp-utilities ; for ros-init-function
@@ -83,4 +83,7 @@
   ((:module "src"
     :components
     ((:file "package")
+     (:file "interfaces" :depends-on ("package"))
+     (:file "plans" :depends-on ("package"))
+     (:file "utils" :depends-on ("package"))
      (:file "demo" :depends-on ("package"))))))

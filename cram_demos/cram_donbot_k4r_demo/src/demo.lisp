@@ -35,17 +35,18 @@
   (donbot-ll::init-move-base-action-client)
   )
 
-(defun mvp-demo ()
-  (init)
+(defun mvp-demo (&optional (?init nil))
+  (if ?init
+      (init))
+  
+  (cram-language:top-level
+    (let* ((?target-pose ?test-pose-stamped)) 
+     ;; trigger task
+     ;; get 2d map
+     ;; get target pose
+     ;; move to target pose
+     (move-base ?target-pose)
+     ;; capture image
+     ;; send image to platform
 
-  ;; trigger task
-  ;; get 2d map
-  ;; get target pose
-  ;; move to target pose
-  (donbot-ll::call-move-base-action-pose
-   :pose (cl-tf:make-pose (cl-tf:make-3d-vector 1.0 0.0 0.0)
-                          (cl-tf:make-identity-rotation)))
-  ;; capture image
-  ;; send image to platform
-
-  )
+  )))

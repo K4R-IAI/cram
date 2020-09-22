@@ -60,14 +60,17 @@
 (defmacro with-real-robot (&body body)
   `(cram-process-modules:with-process-modules-running
        (donbot-pm:grippers-pm
-        rs:robosherlock-perception-pm move-base-pm 
-        btr-belief:world-state-detecting-pm giskard::giskard-pm)
+        rs:robosherlock-perception-pm
+        donbot-pm::move-base-pm 
+        btr-belief:world-state-detecting-pm
+        giskard::giskard-pm)
      (cpl-impl::named-top-level (:name :top-level)
        ,@body)))
 
 (defmacro with-unreal-robot (&body body)
   `(cram-process-modules:with-process-modules-running
        (donbot-pm:grippers-pm
-         move-base-pm giskard::giskard-pm)
+        donbot-pm::move-base-pm
+        giskard::giskard-pm)
      (cpl-impl::named-top-level (:name :top-level)
        ,@body)))
