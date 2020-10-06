@@ -35,7 +35,7 @@
   (donbot-ll::init-move-base-action-client)
   )
 
-(defun mvp-demo (&optional (?init nil))
+(defun mvp-demo (&optional (?init T))
   (if ?init
       (init))
   
