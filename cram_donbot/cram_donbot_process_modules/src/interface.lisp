@@ -46,14 +46,10 @@
         (desig:desig-prop ?motion-designator (:type :moving-torso))
         (desig:desig-prop ?motion-designator (:type :looking))))
 
-  (<- (cpm:matching-process-module ?motion-designator move-base-pm)
-       (desig:desig-prop ?motion-designator (:type :going)))
-
   (<- (cpm:available-process-module ?pm)
-    (member ?pm (grippers-pm giskard-pm move-base-pm))
+    (member ?pm (grippers-pm giskard-pm))
     (not (cpm:projection-running ?_)))
 
-  (<- (cpm:available-process-module move-base-pm))
   (<- (cpm:available-process-module btr-belief:world-state-detecting-pm)))
 
 
@@ -61,7 +57,6 @@
   `(cram-process-modules:with-process-modules-running
        (donbot-pm:grippers-pm
         rs:robosherlock-perception-pm
-        donbot-pm::move-base-pm 
         btr-belief:world-state-detecting-pm
         giskard::giskard-pm)
      (cpl-impl::named-top-level (:name :top-level)
@@ -70,7 +65,6 @@
 (defmacro with-unreal-robot (&body body)
   `(cram-process-modules:with-process-modules-running
        (donbot-pm:grippers-pm
-        donbot-pm::move-base-pm
         giskard::giskard-pm)
      (cpl-impl::named-top-level (:name :top-level)
        ,@body)))

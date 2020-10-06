@@ -87,6 +87,9 @@
     :components
     ((:file "package")
      (:file "interfaces" :depends-on ("package"))
+     (:file "designators" :depends-on ("package"))
      (:file "plans" :depends-on ("package"))
+     (:file "process-modules" :depends-on ("package"))
+     (:file "process-module-matching" :depends-on ("package"))
      (:file "utils" :depends-on ("package"))
      (:file "demo" :depends-on ("package"))))))

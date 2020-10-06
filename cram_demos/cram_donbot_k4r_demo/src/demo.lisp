@@ -39,14 +39,17 @@
   (if ?init
       (init))
   
-  (cram-language:top-level
+  (with-unreal-robot
     (let* ((?target-pose ?test-pose-stamped)) 
-     ;; trigger task
-     ;; get 2d map
-     ;; get target pose
-     ;; move to target pose
-     (move-base ?target-pose)
-     ;; capture image
-     ;; send image to platform
+      ;; trigger task
+      ;; get 2d map
+      ;;(call-get-map-service) 
+      ;; get target pose
+      (call-get-target-pose-service "test")
+      ;; move to target pose
+      (move-base ?target-pose)
+      ;; capture image
+      (call-send-image-service "shelf-picture")
+      ;; send image to platform
 
   )))

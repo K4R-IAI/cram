@@ -1,8 +1,9 @@
 (in-package :k4r)
 
-(defun move-base (?ps)
+(cpl:def-cram-function move-base (?ps)
   "moves the robots base using the ros navigation stack"
-  (exe:perform
-   (desig:a motion
-            (:type :going)
-            (:pose ?ps))))
+  (let ((?move-base-desig (desig:a motion
+                                   (:type :going)
+                                   (:pose ?ps))))
+
+  (exe:perform ?move-base-desig)))

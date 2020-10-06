@@ -29,14 +29,6 @@
 
 (in-package :donbot-pm)
 
-;;;;;;;;;;;;;;;;;;;; DESIG DEF ;;;;;;;;;;;;;;;;;;;;;;;
-;;;TODO find a better place for this
-(def-fact-group navigation-motions (desig:motion-grounding)
-
-  (<- (motion-grounding ?designator (move-base ?pose))
-    (property ?designator (:type :going))
-    (property ?designator (:pose ?pose))))
-
 ;;;;;;;;;;;;;;;;;;;; GRIPPERS ;;;;;;;;;;;;;;;;;;;;;;;;
 
 (cpm:def-process-module grippers-pm (motion-designator)
