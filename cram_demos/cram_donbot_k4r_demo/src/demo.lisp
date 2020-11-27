@@ -29,18 +29,54 @@
 
 (in-package :cram-donbot-k4r-demo)
 
-(defun init()
+(defun init(&optional (?with-planner T))
   ;;(roslisp-utilities:startup-ros)
   (roslisp:start-ros-node "cram")
   (donbot-ll::init-move-base-action-client)
+  (if ?with-planner
+      (get-plan-interface))
   )
 
-(defun mvp-demo (&optional (?init T))
+(defun mvp-demo (&optional (?init T) (?with-planner T))
   (if ?init
       (init))
-  
+
   (with-unreal-robot
-    (let* ((?target-pose ?test-pose-stamped)) 
+    (let* ((?target-pose ?test-pose-stamped))
+
+      (if ?with-planner
+          (cpl:whenever ((cpl:pulsed *flu*))
+            
+            (let* ((full-plan (cpl:value *flu*)))
+              (mapcar (lambda (task)
+                        (if (string= "goto_waypoint" (first task))
+                            (progn (print "going to waypoint")
+                                   ;;(setf ?target-pose (call-get-target-pose-service (third task)))
+                                   (call-get-target-pose-service (third task))
+                                   (move-base ?target-pose)
+                                   ;;(setf ?target-pose (call-get-target-pose-service (fourth task)))
+                                   ;;(move-base ?target-pose)
+                                   ))
+
+                        (if (string= "load_map" (first task))
+                            (progn (print "calling get map service")
+                                   (print "is currently commented out")
+                                   ;;(call-get-map-service)
+                                   ))
+
+                        (if (string= "take_picture" (first task))
+                            (progn (print "taking a picture")
+                                   (call-send-image-service (third task))))
+
+                        (if (string= "finish_inventory" (first task))
+                            (progn (print "finishing inventory")))
+
+                        (print "done with task. let's do next task"))
+
+                      full-plan))))
+
+
+              
       ;; trigger task
       ;; get 2d map
       ;;(call-get-map-service) 
