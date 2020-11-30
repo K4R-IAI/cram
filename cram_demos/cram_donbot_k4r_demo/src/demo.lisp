@@ -29,19 +29,23 @@
 
 (in-package :cram-donbot-k4r-demo)
 
-(defun init(&optional (?with-planner T))
+(defun init()
   ;;(roslisp-utilities:startup-ros)
   (roslisp:start-ros-node "cram")
   (donbot-ll::init-move-base-action-client)
-  (if ?with-planner
-      (get-plan-interface))
+ ;; (if ?with-planner
+ ;;     (get-plan-interface))
   )
 
 (defun mvp-demo (&optional (?init T) (?with-planner T))
   (print "demo launched")
   (if ?init
       (init))
+  
+ (if ?with-planner
+      (get-plan-interface))
 
+  
   (with-unreal-robot
     (let* ((?target-pose ?test-pose-stamped))
 
@@ -74,19 +78,21 @@
 
                         (print "done with task. let's do next task"))
 
-                      full-plan))))
+                      full-plan)
+                      (setf (cpl:value *flu*) nil)))
 
 
               
       ;; trigger task
       ;; get 2d map
       ;;(call-get-map-service) 
-      ;; get target pose
-      (call-get-target-pose-service "test")
-      ;; move to target pose
-      (move-base ?target-pose)
-      ;; capture image
-      (call-send-image-service "shelf-picture")
-      ;; send image to platform
+            ;; get target pose
+      (progn
+         (call-get-target-pose-service "test")
+         ;; move to target pose
+         (move-base ?target-pose)
+         ;; capture image
+         (call-send-image-service "shelf-picture" "shelf" "1")
+          ;; send image to platform
 
-  )))
+  )))))

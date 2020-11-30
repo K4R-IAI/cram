@@ -14,7 +14,7 @@
       (roslisp:ros-warn (get-target-pose-client) "timed out waiting for get_target_pose service")
       (roslisp:with-fields (pose_stamped)
           (roslisp:call-service "get_target_pose" 'k4r_common_srvs-srv:GetTargetPose :object object-ID)
-        pose_stamped)))
+       (cl-tf:from-msg pose_stamped))))
 
 (defun get-target-pose-callback(msg)
   (roslisp:with-fields (pose)
