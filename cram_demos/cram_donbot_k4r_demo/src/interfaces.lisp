@@ -6,7 +6,7 @@
   "pokes the send-image service to take and send an image"
   (if (not (roslisp:wait-for-service "send_image" 10))
       (roslisp:ros-warn (send-image-client) "timed out waiting for send-image service")
-      (roslisp:call-service "send_image" 'k4r_common_srvs-srv:SendImage :name name :label_name label-name :label_id label-id)))
+      (roslisp:call-service "send_image" 'k4r_common_srvs-srv:SendImage :image_name name :label_name label-name :label_id label-id)))
 
 (defun call-get-target-pose-service (object-ID)
   "pokes the get-target-pose service to get a pose to go to"
