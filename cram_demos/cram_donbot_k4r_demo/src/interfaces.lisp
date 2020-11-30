@@ -2,17 +2,19 @@
 ;;; Some of these might need to be moved later on into donbot_description (Maybe)
 (in-package :k4r)
 
-(defun call-send-image-service (name)
+(defun call-send-image-service (name label-name label-id)
   "pokes the send-image service to take and send an image"
   (if (not (roslisp:wait-for-service "send_image" 10))
       (roslisp:ros-warn (send-image-client) "timed out waiting for send-image service")
-      (roslisp:call-service "send_image" 'k4r_common_srvs-srv:SendImage :name name)))
+      (roslisp:call-service "send_image" 'k4r_common_srvs-srv:SendImage :name name :label_name label-name :label_id label-id)))
 
 (defun call-get-target-pose-service (object-ID)
   "pokes the get-target-pose service to get a pose to go to"
   (if (not (roslisp:wait-for-service "get_target_pose" 10))
       (roslisp:ros-warn (get-target-pose-client) "timed out waiting for get_target_pose service")
-      (roslisp:call-service "get_target_pose" 'k4r_common_srvs-srv:GetTargetPose :object object-ID)))
+      (roslisp:with-fields (pose_stamped)
+          (roslisp:call-service "get_target_pose" 'k4r_common_srvs-srv:GetTargetPose :object object-ID)
+        pose_stamped)))
 
 (defun get-target-pose-callback(msg)
   (roslisp:with-fields (pose)

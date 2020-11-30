@@ -38,6 +38,7 @@
   )
 
 (defun mvp-demo (&optional (?init T) (?with-planner T))
+  (print "demo launched")
   (if ?init
       (init))
 
@@ -51,11 +52,11 @@
               (mapcar (lambda (task)
                         (if (string= "goto_waypoint" (first task))
                             (progn (print "going to waypoint")
-                                   ;;(setf ?target-pose (call-get-target-pose-service (third task)))
+                                   (setf ?target-pose (call-get-target-pose-service (third task)))
                                    (call-get-target-pose-service (third task))
                                    (move-base ?target-pose)
-                                   ;;(setf ?target-pose (call-get-target-pose-service (fourth task)))
-                                   ;;(move-base ?target-pose)
+                                   (setf ?target-pose (call-get-target-pose-service (fourth task)))
+                                   (move-base ?target-pose)
                                    ))
 
                         (if (string= "load_map" (first task))
@@ -66,7 +67,7 @@
 
                         (if (string= "take_picture" (first task))
                             (progn (print "taking a picture")
-                                   (call-send-image-service (third task))))
+                                   (call-send-image-service (third task) "shelf" (subseq (third task) 1))))
 
                         (if (string= "finish_inventory" (first task))
                             (progn (print "finishing inventory")))
